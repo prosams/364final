@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<h1>Gas Station Locator</h1>
+
+<form action="{{ url_for('results') }}" method="POST">
+    {{ form.location.label() }}{{ form.location() }}<br>
+    <br>
+    {{ form.type.label() }}{{ form.type() }}<br>
+    <br>
+    {{ form.submit() }}
+    {{ form.hidden_tag() }}
+</form>
+
+{% endblock %}
