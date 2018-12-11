@@ -18,6 +18,7 @@ from wtforms.validators import Required, Length# Here, too
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import json
+from goog_api_key import api_key
 
 ## App setup code
 app = Flask(__name__)
