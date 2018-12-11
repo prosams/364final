@@ -136,7 +136,7 @@ def results(): # all the results (after calls made to google place api, this sho
     if request.method == 'POST' and form.validate_on_submit():
         biglist = [] # this is the final list that will be iterated through to return the results from the search
         url = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
-        key = ""
+        key = api_key
         params = {}
 
         location = form.location.data #change this if it changes to get
