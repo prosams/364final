@@ -26,7 +26,7 @@ app.debug = True
 
 ## All app.config values
 app.config['SECRET_KEY'] = 'hard to guess string from si364'
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/364midterm"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/finaldb"
 ## Provided:
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -90,11 +90,11 @@ class UserOpinion(db.Model): #a table that is filled with user opinions on gas s
 ###################
 
 class PlaceForm(FlaskForm):
-    location = StringField("Please enter the place you want to search for — ideally, city. ", validators=[Required(), Length(min=0,  max=64)])
-    type = StringField("Please enter the brand you want to look up followed by 'gas station' (ie. Shell gas station or just 'gas station' if brand doesn't matter)", validators=[Required(), Length(min=0,  max=64)])
+    location = StringField("Enter the place you want to search for — try a city! ", validators=[Required(), Length(min=0,  max=64)])
+    type = StringField("Enter the '<brand> gas station' (ie. Shell gas station or just 'gas station' if brand doesn't matter)", validators=[Required(), Length(min=0,  max=64)])
     submit = SubmitField("Submit")
 
-    def validate_name(form, field): # TODO 364: Set up custom validation for this form
+    def validate_location(form, field): # TODO 364: Set up custom validation for this form
         displaydata = field.data
         splitcheck = displaydata.split(" ")
         if len(splitcheck) >  5: #your name of the location cannot exceed 5 words! ! !
