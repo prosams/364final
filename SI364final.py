@@ -75,8 +75,8 @@ class Locations(db.Model): # one location can have many gas stations
     def __repr__(self):
         return "{}, {} (ID: {})".format(self.city, self.state, self.locationid)
 
-class UserOpinion(db.Model): #a table that is filled with user opinions on gas stations etc
-    __tablename__ = "useropinion"
+class Opinion(db.Model): #a table that is filled with user opinions on gas stations etc
+    __tablename__ = "opinion"
     opinionid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     rating = db.Column(db.String(64))
@@ -90,24 +90,24 @@ class UserOpinion(db.Model): #a table that is filled with user opinions on gas s
 ###################
 
 class PlaceForm(FlaskForm):
-    location = StringField("Enter the place you want to search for — try a city! ", validators=[Required(), Length(min=0,  max=64)])
-    type = StringField("Enter the '<brand> gas station' (ie. Shell gas station or just 'gas station' if brand doesn't matter)", validators=[Required(), Length(min=0,  max=64)])
+    location = StringField("Please enter the place you want to search for — ideally, city. ", validators=[Required(), Length(min=0,  max=64)])
+    type = StringField("Please enter the brand you want to look up followed by 'gas station' (ie. Shell gas station or just 'gas station' if brand doesn't matter)", validators=[Required(), Length(min=0,  max=64)])
     submit = SubmitField("Submit")
 
-    def validate_location(form, field): # TODO 364: Set up custom validation for this form
+    def validate_location(self, field): # TODO 364: Set up custom validation for this form
         displaydata = field.data
         splitcheck = displaydata.split(" ")
         if len(splitcheck) >  5: #your name of the location cannot exceed 5 words! ! !
             raise ValidationError("The name of your location cannot exceed 5 words.")
 
-    def validate_type(form, field): # TODO 364: Set up custom validation for this form
+    def validate_type(self, field): # TODO 364: Set up custom validation for this form
         displaydata = field.data
         if "gas station" not in displaydata:
             raise ValidationError("You must have 'gas station' within your second input!")
 
 class OpinionForm(FlaskForm):
-    name = StringField("Please enter the name of the station you want to leave an opinion about: ", validators=[Required(), Length(min=0,  max=64)])
-    rating = StringField('Please enter your rating out of 5 (1 low, 5 high)', validators=[Required(),  Length(min=0,  max=2)])
+    name = StringField("Please enter the name or a description of a station you want to leave an opinion about: ", validators=[Required(), Length(min=0,  max=64)])
+    rating = StringField('Please enter your rating out of 10 (1 low, 10 high)', validators=[Required(),  Length(min=0,  max=2)])
     comments = StringField("Please enter any comments you have about the station", validators=[Required(), Length(min=0,  max=128)])
     submit = SubmitField("Submit")
 
@@ -194,7 +194,7 @@ def opinionresults():
     rating = request.args.get('rating')
     comments = request.args.get("comments")
 
-    new = UserOpinion(name=name, rating=rating, comments=comments)
+    new = Opinion(name=name, rating=rating, comments=comments)
     db.session.add(new)
     db.session.commit()
 
@@ -206,7 +206,7 @@ def opinionresults():
 
 @app.route('/all_ops')
 def allops():
-    all = UserOpinion.query.all()
+    all = Opinion.query.all()
     return render_template('allops.html', all=all)
 
 if __name__ == '__main__':

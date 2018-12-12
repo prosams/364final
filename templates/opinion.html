@@ -3,14 +3,14 @@
 {% block content %}
 
 <br>
-<h1>Opinion Form</h1>
+<h1>= = = Opinion Form = = =</h1>
 
 <form action="{{ url_for('opinionresults') }}" method="GET">
     {{ form.name.label() }}{{ form.name() }}<br>
     <br>
-    {{ form.rating.label() }}{{ form.rating() }}<br>
-    <br>
     {{ form.comments.label() }}{{ form.comments() }}<br>
+    <br>
+    {{ form.rating.label() }}{{ form.rating() }}<br>
     <br>
     {{ form.submit() }}
     {{ form.hidden_tag() }}

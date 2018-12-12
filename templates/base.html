@@ -6,13 +6,13 @@ this is the base html file of the gas station locator web app
 
 {% endblock %}
 
-<p>-----------------------------------</p>
-<h2>Navigation</h2>
+<p>------------</p>
+<h3>Navigation</h3>
 <ul>
-    <li><a href="{{ url_for('index')}}">Go to main location input form.</a></li><br>
-    <li><a href="{{ url_for('all_gas')}}">See all gas stations.</a></li><br>
-    <li><a href="{{ url_for('all_loc')}}">See all locations so far.</a></li><br>
-    <li><a href="{{ url_for('opinion')}}">Give us some of your opinions on gas stations!</a></li><br>
+    <li><a href="{{ url_for('index')}}">Go to main location input form.</a></li>
+    <li><a href="{{ url_for('all_gas')}}">See all gas stations.</a></li>
+    <li><a href="{{ url_for('all_loc')}}">See all locations so far.</a></li>
+    <li><a href="{{ url_for('opinion')}}">Give us some of your opinions on gas stations!</a></li>
     <li><a href="{{ url_for('allops')}}">See all of your opinions on gas stations.</a></li>
 
 </ul>
