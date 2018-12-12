@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<form action="/update/{{ desc }}" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.newPriority.label }}{{ form.newPriority() }}<br>
+    {{ form.submit() }}<br>
+</form>
+
+{% endblock %}

@@ -183,6 +183,16 @@ class OpinionForm(FlaskForm):
     comments = StringField("Please enter any comments you have about the station", validators=[Required(), Length(min=0,  max=128)])
     submit = SubmitField("Submit")
 
+class UpdateButtonForm(FlaskForm):
+    submit = SubmitField("Update")
+
+class DeleteButtonForm(FlaskForm):
+    submit = SubmitField("Delete")
+
+class UpdateRatingForm(FlaskForm):
+    newPriority = StringField("What is the new rating of the gas station?", validators=[Required()])
+    submit = SubmitField('Update')
+
 ## Error handling routes - THIS IS COPIED FROM HOMEWORK 3
 @app.errorhandler(404)
 def page_not_found(e):
