@@ -11,13 +11,13 @@
 
 ## Import statements
 import os
+import requests
+import json
 from flask import Flask, render_template, session, redirect, url_for, flash, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, RadioField, ValidationError, FileField, PasswordField, BooleanField, SelectMultipleField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo
 from flask_sqlalchemy import SQLAlchemy
-import requests
-import json
 from goog_api_key import api_key
 
 # Imports for login management
