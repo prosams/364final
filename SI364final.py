@@ -59,6 +59,26 @@ def get_or_create_location(city, state):
         db.session.commit()
         return newloc
 
+def get_station_by_id(id):
+	"""Should return station object or None"""
+	g = Gassy.query.filter_by(id=id).first()
+	return g
+
+def get_or_create_collection(name, current_user, stationlist=[]):
+	"""Always returns a PersonalCollection instance"""
+	collec = PersonalCollection.query.filter_by(title = name, userid = current_user.id).first()
+
+	if collec: 			# if there exists a collection with the input name, associated with the current user,
+		return collec 	#then this function should return that PersonalCollection instance.
+
+	else:
+		newcollec = PersonalCollection(title = name, userid = current_user.id, stations = stationlist)
+		for station in stationlist:
+			newcollec.gasstations.append(station)
+		db.session.add(newcollec)
+		db.session.commit()
+		return newcollec
+
 ##################
 ##### MODELS #####
 ##################
@@ -72,7 +92,7 @@ class User(UserMixin, db.Model): # REMEMBER THAT YOU NEED TO CHANGE THIS DB RELA
 	username = db.Column(db.String(255), unique=True, index=True)
 	email = db.Column(db.String(64), unique=True, index=True)
 	password_hash = db.Column(db.String(128))
-	collection = db.relationship("PersonalCollection", backref="Users") # one user, many personal collections of gifs with different names -- say, "Happy Gif Collection" or "Sad Gif Collection"
+	collection = db.relationship("PersonalCollection", backref="Users") # one user, many personal collections of stations with different names"
 	# Remember, the best way to do so is to add the field, save your code, and then create and run a migration!
 	@property
 	def password(self):
@@ -110,14 +130,14 @@ class Locations(db.Model): # one location can have many gas stations
     def __repr__(self):
         return "{}, {} (ID: {})".format(self.city, self.state, self.locationid)
 
-# Model to store a personal gif collection
+# Model to store a personal collection
 class PersonalCollection(db.Model):
 	__tablename__ = "PersonalCollection"
-	# TODO 364: Add code for the PersonalGifCollection model such that it has the following fields:
+	# TODO 364: Add code for the PersonalCollection model such that it has the following fields:
 	id = db.Column(db.Integer, primary_key=True)        # id (Integer, primary key)
 	title = db.Column(db.String(255))      # name (String, up to 255 characters)
 	userid = db.Column(db.Integer, db.ForeignKey('users.id'))    # one-to-many relationship with the User model (one user, many personal collections of stations with different names)
-	gifs = db.relationship('Gassy',secondary=user_collection,backref=db.backref("PersonalCollection",lazy='dynamic'),lazy='dynamic')
+	stations = db.relationship('Gassy',secondary=user_collection,backref=db.backref("PersonalCollection",lazy='dynamic'),lazy='dynamic')
 	# many to many rselationship with the gassy model (one station in many personal collections, one personal collection has many stations in it).
 
 class Opinion(db.Model): #a table that is filled with user opinions on gas stations etc
@@ -158,7 +178,7 @@ class LoginForm(FlaskForm):
 
 class CollectionCreateForm(FlaskForm):
 	name = StringField('Collection Name',validators=[Required()])
-	gif_picks = SelectMultipleField('Stations to include')
+	station_picks = SelectMultipleField('Stations to include')
 	submit = SubmitField("Create Collection")
 
 class PlaceForm(FlaskForm):
@@ -324,6 +344,33 @@ def opinionresults():
 def allops():
     all = Opinion.query.all()
     return render_template('allops.html', all=all)
+
+@app.route('/create_collection',methods=["GET","POST"])
+@login_required
+def create_collection():
+	form = CollectionCreateForm()
+	stations = Gassy.query.all()
+	choices = [(g.id, g.title) for g in stations]
+	form.station_picks.choices = choices
+
+	if request.method == "POST":
+		stationlist = form.station_picks.data
+		name = form.name.data
+		listed = [get_station_by_id(int(individual)) for individual in stationlist] # create a list of station objects
+		collec = get_or_create_collection(name = name, current_user = current_user, stationlist = listed)
+		return redirect(url_for('collections'))
+
+	# TODO 364: If the form validates on submit, get the list of the gas ids that were selected from the form. Use the get_station_by_id function to .  Then, use the information available to you at this point in the function (e.g. the list of gif objects, the current_user) to invoke the get_or_create_collection function, and redirect to the page that shows a list of all your collections.
+	# If the form is not validated, this view function should simply render the create_collection.html template and send the form to the template.
+	return render_template('create_collection.html', form = form)
+
+@app.route('/collections',methods=["GET","POST"])
+@login_required
+def collections():
+	currentcollection = PersonalCollection.query.filter_by(userid = current_user.id).all()
+	return render_template('collections.html', collections = currentcollection)
+	# TODO 364: This view function should render the collections.html template so that only the current user's personal collection links will render in that template. Make sure to examine the template so that you send it the correct data!
+
 
 if __name__ == '__main__':
     db.create_all() # Will create any defined models when you run the application
