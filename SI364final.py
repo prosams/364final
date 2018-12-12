@@ -13,12 +13,16 @@
 import os
 from flask import Flask, render_template, session, redirect, url_for, flash, request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, RadioField, ValidationError# Note that you may need to import more here! Check out examples that do what you want to figure out what.
-from wtforms.validators import Required, Length# Here, too
+from wtforms import StringField, SubmitField, IntegerField, RadioField, ValidationError, FileField, PasswordField, BooleanField, SelectMultipleField
+from wtforms.validators import Required, Length, Email, Regexp, EqualTo
 from flask_sqlalchemy import SQLAlchemy
 import requests
 import json
 from goog_api_key import api_key
+
+# Imports for login management
+from flask_login import LoginManager, login_required, logout_user, login_user, UserMixin, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 ## App setup code
 app = Flask(__name__)
@@ -33,6 +37,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 ## Statements for db setup (and manager setup if using Manager)
 db = SQLAlchemy(app)
+
+# Login configurations setup
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'login'
+login_manager.init_app(app) # set up login manager
 
 ######################################
 ######## HELPER FXNS (If any) ########
@@ -53,7 +63,7 @@ def get_or_create_location(city, state):
 ##### MODELS #####
 ##################
 
-user_collection = db.Table('user_collection',db.Column('gas_id',db.Integer,db.ForeignKey('Gassy.gasid')),db.Column('collection_id',db.Integer,db.ForeignKey('PersonalCollection.id')))
+user_collection = db.Table('user_collection',db.Column('gas_id',db.Integer,db.ForeignKey('gasstations.gasid')),db.Column('collection_id',db.Integer,db.ForeignKey('PersonalCollection.id')))
 
 # Special model for users to log in
 class User(UserMixin, db.Model): # REMEMBER THAT YOU NEED TO CHANGE THIS DB RELATIONSHIP THING
@@ -102,7 +112,7 @@ class Locations(db.Model): # one location can have many gas stations
 
 # Model to store a personal gif collection
 class PersonalCollection(db.Model):
-	__tablename__ = "PersonalGifCollection"
+	__tablename__ = "PersonalCollection"
 	# TODO 364: Add code for the PersonalGifCollection model such that it has the following fields:
 	id = db.Column(db.Integer, primary_key=True)        # id (Integer, primary key)
 	title = db.Column(db.String(255))      # name (String, up to 255 characters)
