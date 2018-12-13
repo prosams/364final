@@ -71,7 +71,7 @@ def get_or_create_location(city, state):
 
 def get_station_by_id(id):
 	"""Should return station object or None"""
-	g = Gassy.query.filter_by(id=id).first()
+	g = Gassy.query.filter_by(gasid=id).first()
 	return g
 
 def get_or_create_collection(name, current_user, stationlist=[]):
@@ -84,7 +84,7 @@ def get_or_create_collection(name, current_user, stationlist=[]):
 	else:
 		newcollec = PersonalCollection(title = name, userid = current_user.id, stations = stationlist)
 		for station in stationlist:
-			newcollec.gasstations.append(station)
+			newcollec.stations.append(station)
 		db.session.add(newcollec)
 		db.session.commit()
 		return newcollec
@@ -361,7 +361,7 @@ def allops():
 def create_collection():
 	form = CollectionCreateForm()
 	stations = Gassy.query.all()
-	choices = [(g.id, g.title) for g in stations]
+	choices = [(g.gasid, g.gasname + " at " + g.road) for g in stations]
 	form.station_picks.choices = choices
 
 	if request.method == "POST":
