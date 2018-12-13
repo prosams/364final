@@ -13,9 +13,9 @@ Must use user authentication (which should be based on the code you were provide
 
 Must have data associated with a user and at least 2 routes besides logout that can only be seen by logged-in users.
 
-At least 3 model classes besides the User class.
+**At least 3 model classes besides the User class.**
 
-At least one one:many relationship that works properly built between 2 models.
+**At least one one:many relationship that works properly built between 2 models.**
 
 At least one many:many relationship that works properly built between 2 models.
 
@@ -51,8 +51,8 @@ Include at least one way to update items saved in the database in the applicatio
 
 Include at least one way to delete items saved in the database in the application (also like in HW5).
 
-Include at least one use of redirect.
+**Include at least one use of redirect.**
 
-Include at least two uses of url_for. (HINT: Likely you'll need to use this several times, really.)
+**Include at least two uses of url_for. (HINT: Likely you'll need to use this several times, really.)**
 
-Have at least 5 view functions that are not included with the code we have provided. (But you may have more!)
+**Have at least 5 view functions that are not included with the code we have provided. (But you may have more!)**

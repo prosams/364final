@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block main_content %}
 
 <h1>All of the comments and opinions that have been left</h1>
-Remember that these are from anyone who has left an opinion on anything, not just the logged in user!
+
+<h2> Remember that these are from anyone who has left an opinion on anything, not just the logged in user!</h2>
 
 {% for n in all %}
     <p>{{ n }}</p>

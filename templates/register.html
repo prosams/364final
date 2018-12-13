@@ -1,4 +1,4 @@
-<h1>Sign up for a new user account</h1>
+
 {% extends 'base.html' %}
 
 {% block navigation %}
@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block main_content %}
+
+<h1>Sign up for a new user account</h1>
 <form method="POST">
 	{{ form.hidden_tag() }}
 	{{ form.email.label }} {{ form.email() }}
