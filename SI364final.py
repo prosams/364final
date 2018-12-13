@@ -382,6 +382,12 @@ def collections():
 	return render_template('collections.html', collections = currentcollection)
 	# TODO 364: This view function should render the collections.html template so that only the current user's personal collection links will render in that template. Make sure to examine the template so that you send it the correct data!
 
+@app.route('/collection/<id_num>') #allows looking at a specific collection
+def single_collection(id_num):
+	id_num = int(id_num)
+	collection = PersonalCollection.query.filter_by(id=id_num).first()
+	stats = collection.stations.all()
+	return render_template('collection.html', collection=collection, stats=stats)
 
 if __name__ == '__main__':
     db.create_all() # Will create any defined models when you run the application

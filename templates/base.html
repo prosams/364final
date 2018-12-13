@@ -27,8 +27,10 @@ this is the base html file of the gas station locator web app
     <li><a href="{{ url_for('all_loc')}}">See all locations so far.</a></li>
     <li><a href="{{ url_for('opinion')}}">Give us some of your opinions on gas stations!</a></li>
     <li><a href="{{ url_for('allops')}}">See all of the opinions that have been left on gas stations.</a></li>
-
     <li><a href="{{ url_for('register')}}">Register a new user.</a></li>
+    <li><a href="{{ url_for('create_collection')}}">Create a new collection of gas stations. Must be logged in.</a></li>
+    <li><a href="{{ url_for('collections')}}">See the currently logged in user's collections.</a></li>
+
 
 </ul>
 {% endblock %}

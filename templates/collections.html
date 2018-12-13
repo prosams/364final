@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block navigation %}
+ {{ super() }}
+{% endblock %}
+
+{% block main_content %}
+
+<h1>My collections</h1><br>
+
+<ul>
+{% for c in collections %}
+    <li><a href="http://localhost:5000/collection/{{ c.id }}">{{ c.name }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}
