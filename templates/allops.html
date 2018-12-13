@@ -2,12 +2,30 @@
 
 {% block main_content %}
 
+{% if not all %}
+There are no opinions to show.
+{% else %}
+
 <h1>All of the comments and opinions that have been left</h1>
 
 <h2> Remember that these are from anyone who has left an opinion on anything, not just the logged in user!</h2>
 
+<ul>
 {% for n in all %}
-    <p>{{ n }}</p>
+    <li>
+        <a href="{{ url_for('oneop', ident = n.opinionid)}}">{{ n.name }}</a>
+        <form method="POST" action="/delete/{{ n.opinionid }}">
+      	{{ form.hidden_tag() }}
+      	{{ form.submit() }}
+    </li>
 {% endfor %}
+</ul>
+{% endif %}
+
+<div>
+{% for message in get_flashed_messages() %}
+<strong>*** {{ message }} ***</strong>
+{% endfor %}
+</div>
 
 {% endblock %}

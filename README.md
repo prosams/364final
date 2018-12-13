@@ -9,7 +9,7 @@ Include navigation in base.html with links (using a href tags) that lead to ever
 
 **Ensure that all templates in the application inherit (using template inheritance, with extends) from base.html and include at least one additional block.**
 
-Must use user authentication (which should be based on the code you were provided to do this e.g. in HW4).
+**Must use user authentication (which should be based on the code you were provided to do this e.g. in HW4).**
 
 Must have data associated with a user and at least 2 routes besides logout that can only be seen by logged-in users.
 
@@ -19,7 +19,7 @@ Must have data associated with a user and at least 2 routes besides logout that 
 
 At least one many:many relationship that works properly built between 2 models.
 
-Successfully save data to each table.
+**Successfully save data to each table.**
 
 Successfully query data from each of your models (so query at least one column, or all data, from every database table you have a model for) and use it to effect in the application (e.g. won't count if you make a query that has no effect on what you see, what is saved, or anything that happens in the app).
 

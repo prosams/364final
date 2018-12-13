@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+
+{% block main_content %}
+<h1>{{ op.name }}</h1> <br>
+
+<ul>
+{% for item in items %}
+    <li>
+        {{ item.description }} - Rating: {{ item.rating }}
+        <form method="POST" action="/update/{{ item.opinionid }}">
+      	{{ form.hidden_tag() }}
+        {{ form.submit() }}
+    </li>
+{% endfor %}
+</ul>
+
+<div>
+{% for message in get_flashed_messages() %}
+<strong>*** {{ message }} ***</strong>
+{% endfor %}
+</div>
+
+{% endblock %}

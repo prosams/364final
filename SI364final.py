@@ -195,13 +195,13 @@ class PlaceForm(FlaskForm):
     type = StringField("Please enter the brand you want to look up followed by 'gas station' (ie. Shell gas station or just 'gas station' if brand doesn't matter)", validators=[Required(), Length(min=0,  max=64)])
     submit = SubmitField("Submit")
 
-    def validate_location(self, field): # TODO 364: Set up custom validation for this form
+    def validate_location(self, field):
         displaydata = field.data
         splitcheck = displaydata.split(" ")
         if len(splitcheck) >  5: #your name of the location cannot exceed 5 words! ! !
             raise ValidationError("The name of your location cannot exceed 5 words.")
 
-    def validate_type(self, field): # TODO 364: Set up custom validation for this form
+    def validate_type(self, field):
         displaydata = field.data
         if "gas station" not in displaydata:
             raise ValidationError("You must have 'gas station' within your second input!")
@@ -219,7 +219,7 @@ class DeleteButtonForm(FlaskForm):
     submit = SubmitField("Delete")
 
 class UpdateRatingForm(FlaskForm):
-    newPriority = StringField("What is the new rating of the gas station?", validators=[Required()])
+    newRating = StringField("What is the new rating of the gas station?", validators=[Required()])
     submit = SubmitField('Update')
 
 ## Error handling routes - THIS IS COPIED FROM HOMEWORK 3
@@ -355,6 +355,30 @@ def opinionresults():
 def allops():
     all = Opinion.query.all()
     return render_template('allops.html', all=all)
+
+@app.route('/list/<ident>',methods=["GET","POST"]) # show the individual opinion/comment on a specific station, allows you the option to update
+def one_op(ident):
+    form = UpdateButtonForm()
+    lst = Opinion.query.filter_by(opinionid = ident).first()
+    items = lst.items.all()
+    return render_template('list_tpl.html', op = lst, items = items, form = form)
+
+@app.route('/update/<item>', methods=["GET","POST"])
+def update(item): #used to update the opinion ratings
+    t = Opinion.query.filter_by(opinionid = int(item)).first()
+    form = UpdateRatingForm()
+
+    if form.validate_on_submit():
+        new_rating = form.priority.data
+        t.priority = new_rating
+        db.session.commit()
+        flash("Updated the rating of " + t.name)
+        return redirect(url_for('allops')) #redirect to the url that shows all of the opinions
+    return render_template('update_item.html', form = form, item = t)
+    # This code should use the form you created above for updating the specific item and manage the process of updating the item's priority.
+    # Once it is updated, it should redirect to the page showing all the links to todo lists.
+    # It should flash a message: Updated priority of <the description of that item>
+    # HINT: What previous class example is extremely similar?
 
 @app.route('/create_collection',methods=["GET","POST"])
 @login_required
