@@ -13,12 +13,15 @@
 import os
 import requests
 import json
+from goog_api_key import api_key
 from flask import Flask, render_template, session, redirect, url_for, flash, request
+from flask_script import Manager, Shell
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, RadioField, ValidationError, FileField, PasswordField, BooleanField, SelectMultipleField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo
 from flask_sqlalchemy import SQLAlchemy
-from goog_api_key import api_key
+from flask_migrate import Migrate, MigrateCommand
+
 
 # Imports for login management
 from flask_login import LoginManager, login_required, logout_user, login_user, UserMixin, current_user
@@ -27,7 +30,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 ## App setup code
 app = Flask(__name__)
 app.debug = True
-
+app.use_reloader = True
 ## All app.config values
 app.config['SECRET_KEY'] = 'hard to guess string from si364'
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/finaldb"
@@ -37,12 +40,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 ## Statements for db setup (and manager setup if using Manager)
 db = SQLAlchemy(app)
+manager = Manager(app)
+migrate = Migrate(app, db)
+manager.add_command('db', MigrateCommand)
 
 # Login configurations setup
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'login'
 login_manager.init_app(app) # set up login manager
+
+def make_shell_context():
+    return dict(app=app, db=db, User=User)
+manager.add_command("shell", Shell(make_context=make_shell_context))
 
 ######################################
 ######## HELPER FXNS (If any) ########
@@ -106,7 +116,7 @@ class User(UserMixin, db.Model): # REMEMBER THAT YOU NEED TO CHANGE THIS DB RELA
 ## DB load function - Necessary for behind the scenes login manager that comes with flask_login capabilities! Won't run without this.
 @login_manager.user_loader
 def load_user(user_id):
-	return User.query.get(int(user_id)) # returns User object or None
+    return User.query.get(int(user_id)) # returns User object or None
 
 class Gassy(db.Model): #each individual gas station has one location
     __tablename__ = "gasstations"
@@ -165,7 +175,6 @@ class RegistrationForm(FlaskForm):
 	def validate_email(self,field):
 		if User.query.filter_by(email=field.data).first():
 			raise ValidationError('Email already registered.')
-
 	def validate_username(self,field):
 		if User.query.filter_by(username=field.data).first():
 			raise ValidationError('Username already taken')
@@ -226,6 +235,7 @@ def internal_server_error(e):
 ###### VIEW FXNS ######
 #######################
 
+#login and logout stuff
 @app.route('/login',methods=["GET","POST"])
 def login():
 	form = LoginForm()
@@ -260,6 +270,7 @@ def register():
 def secret():
 	return "Only authenticated users can do this! Try to log in or contact the site admin."
 
+## main stuff
 @app.route('/')
 def index():
     form = PlaceForm()
