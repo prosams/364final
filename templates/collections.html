@@ -6,11 +6,11 @@
 
 {% block main_content %}
 
-<h1>My collections</h1><br>
+<h1>My collections</h1>
 
 <ul>
 {% for c in collections %}
-    <li><a href="http://localhost:5000/collection/{{ c.id }}">{{ c.name }}</a></li>
+    <li><a href="http://localhost:5000/collection/{{ c.id }}">{{ c.title }}</a></li>
 {% endfor %}
 </ul>
 

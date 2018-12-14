@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+<h1>{{ collection.title }}</h1>
+
+{% for sg in stats %}
+      <strong>{{ sg.gasname + " " + sg.road }}</strong>
+
+    <br><br>
+{% endfor %}
+
+{% endblock %}
