@@ -365,16 +365,16 @@ def one_op(ident):
 
 @app.route('/update/<item>', methods=["GET","POST"])
 def update(item): #used to update the opinion ratings
-	t = Opinion.query.filter_by(opinionid = int(item)).first()
 	form = UpdateRatingForm()
-
 	if form.validate_on_submit():
-		new_rating = form.priority.data
-		t.priority = new_rating
+		t = Opinion.query.filter_by(opinionid = int(item)).first()
+		name = t.name
+		new_rating = form.newRating.data
+		t.rating = new_rating
 		db.session.commit()
 		flash("Updated the rating of " + t.name)
 		return redirect(url_for('allops')) #redirect to the url that shows all of the opinions
-	return render_template('update_item.html', form = form, item = t)
+	return render_template('update_item.html', form = form, id = item)
 	# This code should use the form you created above for updating the specific item and manage the process of updating the item's priority.
 	# Once it is updated, it should redirect to the page showing all the links to todo lists.
 	# It should flash a message: Updated priority of <the description of that item>

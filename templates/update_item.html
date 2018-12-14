@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
-<form action="/update/{{ name }}" method="POST">
+<form action="/update/{{ id }}" method="POST">
     {{ form.hidden_tag() }}
     {{ form.newRating.label }}{{ form.newRating() }}<br>
     {{ form.submit() }}<br>
