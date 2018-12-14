@@ -3,21 +3,21 @@ Final project for SI 364 — an advanced Gas Station tool with user auth and co
 
 Ensure that your SI364final.py file has all the setup (app.config values, import statements, code to run the app if that file is run, etc) necessary to run the Flask application, and the application runs correctly on http://localhost:5000 (and the other routes you set up). Your main file must be called SI364final.py, but of course you may include other files if you need.
 
-A user should be able to load http://localhost:5000 and see the first page they ought to see on the application.
+**A user should be able to load http://localhost:5000 and see the first page they ought to see on the application.**
 
-Include navigation in base.html with links (using a href tags) that lead to every other page in the application that a user should be able to click on. (e.g. in the lecture examples from the Feb 9 lecture, like this )
+**Include navigation in base.html with links (using a href tags) that lead to every other page in the application that a user should be able to click on. (e.g. in the lecture examples from the Feb 9 lecture, like this )**
 
 **Ensure that all templates in the application inherit (using template inheritance, with extends) from base.html and include at least one additional block.**
 
 **Must use user authentication (which should be based on the code you were provided to do this e.g. in HW4).**
 
-Must have data associated with a user and at least 2 routes besides logout that can only be seen by logged-in users.
+**Must have data associated with a user and at least 2 routes besides logout that can only be seen by logged-in users.**
 
 **At least 3 model classes besides the User class.**
 
 **At least one one:many relationship that works properly built between 2 models.**
 
-At least one many:many relationship that works properly built between 2 models.
+**At least one many:many relationship that works properly built between 2 models.**
 
 **Successfully save data to each table.**
 

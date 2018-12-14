@@ -7,13 +7,12 @@ There are no opinions to show.
 {% else %}
 
 <h1>All of the comments and opinions that have been left</h1>
-
 <h2> Remember that these are from anyone who has left an opinion on anything, not just the logged in user!</h2>
 
 <ul>
 {% for n in all %}
     <li>
-        <a href="{{ url_for('oneop', ident = n.opinionid)}}">{{ n.name }}</a>
+        <a href="{{ url_for('one_op', ident = n.opinionid)}}">{{ n.name }}</a>
         <form method="POST" action="/delete/{{ n.opinionid }}">
       	{{ form.hidden_tag() }}
       	{{ form.submit() }}

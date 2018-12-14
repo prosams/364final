@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+
+{% block main_content %}
+<h1>{{ op.name }}</h1> <br>
+
+Rating: {{ op.rating }}
+<form method="POST" action="/update/{{ op.opinionid }}">
+{{ form.hidden_tag() }}{{ form.submit() }}
+
+<div>
+{% for message in get_flashed_messages() %}
+<strong>*** {{ message }} ***</strong>
+{% endfor %}
+</div>
+
+{% endblock %}
