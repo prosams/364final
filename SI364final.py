@@ -33,10 +33,13 @@ app.debug = True
 app.use_reloader = True
 ## All app.config values
 app.config['SECRET_KEY'] = 'hard to guess string from si364'
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/finaldb"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL') or "postgresql://localhost/finaldb"
 ## Provided:
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.config['HEROKU_ON'] = os.environ.get('HEROKU')
+
 
 ## Statements for db setup (and manager setup if using Manager)
 db = SQLAlchemy(app)
