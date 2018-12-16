@@ -1,6 +1,6 @@
 ##Gassy
-Final project for SI 364
 
+Final project for SI 364
 IMPORTANT: This project has a .gitignore with an api key in it! It is housed in a file called goog_api_key.py. If this file is not within the rest of files, it won't work.
 
 This project is a gas station tool with user authentication, the option to save your favorite/most used gas stations/etc to a collection that only a logged in user can see, and the option to leave anonymous ratings and comments that are visible to everyone regardless of whether they are logged in or not. You can also update ratings or delete entire entries that have been left.
