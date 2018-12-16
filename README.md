@@ -1,5 +1,5 @@
-# 364final
-Final project for SI 364 — Gassy
+#Gassy
+Final project for SI 364
 
 IMPORTANT: This project has a .gitignore with an api key in it! It is housed in a file called goog_api_key.py. If this file is not within the rest of files, it won't work.
 
