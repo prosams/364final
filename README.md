@@ -9,21 +9,37 @@ This project is a gas station tool with user authentication, the option to save 
 
 
 / — index.html
+
 /results — results.html
+
 /all_gas — stations.html
+
 /all_loc — searchedlocations.html
+
 /opinion — opinion.html
+
 /opinionresults — opinionresults.html
+
 /all_ops — allops.html
+
 /login - login.html
+
 /logout
+
 /register - register.html
+
 /list/<ident> - opiniontpl.html
+  
 /update/<item> - update_item.html
+  
 /delete/<lst>
+  
 /create_collection - create_collection.html
+
 /collections - collections.html
+
 /collection/<num> - collection.html
+  
 
 
 
