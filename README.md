@@ -1,7 +1,32 @@
 # 364final
-Final project for SI 364 — an advanced Gas Station tool with user auth and collections
+Final project for SI 364 — Gassy
 
-Ensure that your SI364final.py file has all the setup (app.config values, import statements, code to run the app if that file is run, etc) necessary to run the Flask application, and the application runs correctly on http://localhost:5000 (and the other routes you set up). Your main file must be called SI364final.py, but of course you may include other files if you need.
+IMPORTANT: This project has a .gitignore with an api key in it! It is housed in a file called goog_api_key.py. If this file is not within the rest of files, it won't work.
+
+This project is a gas station tool with user authentication, the option to save your favorite/most used gas stations/etc to a collection that only a logged in user can see, and the option to leave anonymous ratings and comments that are visible to everyone regardless of whether they are logged in or not. You can also update ratings or delete entire entries that have been left.
+
+*routes and templates*
+
+/ — index.html
+/results — results.html
+/all_gas — stations.html
+/all_loc — searchedlocations.html
+/opinion — opinion.html
+/opinionresults — opinionresults.html
+/all_ops — allops.html
+/login - login.html
+/logout
+/register - register.html
+/list/<ident> - opiniontpl.html
+/update/<item> - update_item.html
+/delete/<lst>
+/create_collection - create_collection.html
+/collections - collections.html
+/collection/<num> - collection.html
+
+----------------------
+
+**Ensure that your SI364final.py file has all the setup (app.config values, import statements, code to run the app if that file is run, etc) necessary to run the Flask application, and the application runs correctly on http://localhost:5000 (and the other routes you set up). Your main file must be called SI364final.py, but of course you may include other files if you need.**
 
 **A user should be able to load http://localhost:5000 and see the first page they ought to see on the application.**
 
